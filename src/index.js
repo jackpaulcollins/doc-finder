@@ -2,6 +2,7 @@ import './styles.scss';
 import $ from 'jquery';
 import './backend.js';
 import {ApiCall} from './backend.js'
+import {GoogleApiCall} from './backend.js'
 import { parseData } from './backend.js'
 import { parseString } from './backend.js'
 
@@ -9,6 +10,16 @@ $(document).ready(function(){
   $("#submit").submit(function(){
     event.preventDefault();
     const symptom = $("#user-input").val();
+    const location = $("#user-location");
+    let newLocation = new GoogleApiCall();
+    let locationPromise = newLocation.newDataCall(location)
+    locationPromise.then(function(response){
+      let locationBody = JSON.parse(response);
+        console.log(locationbody)
+      }, function(error){
+        $('.showErrors').text(`There was an error processing your request: ${error.message}`);
+      });
+
     let newQuery = new ApiCall();
     let promise = newQuery.newDataCall(symptom);
     promise.then(function(response){

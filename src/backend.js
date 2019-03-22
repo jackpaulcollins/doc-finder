@@ -20,6 +20,27 @@ export class ApiCall{
   }
 }
 
+export class GoogleApiCall{
+  newDataCall(location){
+    return new Promise(function(resolve,reject){
+    let request = new XMLHttpRequest();
+    const location = 'OR';
+    let url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.locationApi}`
+    request.onload = function(){
+      if (this.status == 200){
+        resolve(request.response);
+      } else{
+        reject(Error(request.statusText));
+      }
+    };
+      request.open("POST", url, true);
+      request.send();
+    });
+  }
+}
+
+
+
 export function parseData(input){
   const data = input.data;
   const output = [];
