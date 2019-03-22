@@ -8,9 +8,9 @@ import { parseString } from './backend.js'
 $(document).ready(function(){
   $("#submit").submit(function(){
     event.preventDefault();
-    const userSearch = $("#user-input").val();
+    const symptom = $("#user-input").val();
     let newQuery = new ApiCall();
-    let promise = newQuery.newDataCall();
+    let promise = newQuery.newDataCall(symptom);
     promise.then(function(response){
       let body = JSON.parse(response);
       console.log(body);
