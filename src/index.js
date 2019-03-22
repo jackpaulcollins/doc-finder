@@ -1,5 +1,6 @@
 import './styles.scss';
 import $ from 'jquery'
+import './backend.js'
 
 $(document).ready(function(){
   $("#submit").submit(function(){
