@@ -18,29 +18,25 @@ export class ApiCall{
       request.send();
     });
   }
-}
 
-export class GoogleApiCall{
-  newDataCall(){
-    return new Promise(function(resolve,reject){
-    let request = new XMLHttpRequest();
-    const location = 'OR';
-    let url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.exports.locationApi}`;
-    request.onload = function(){
-      if (this.status == 200){
-        resolve(request.response);
-        console.log(request.response);
-        return request.response;
+    locationCall(location){
+      return new Promise(function(resolve,reject){
+      let request = new XMLHttpRequest();
+      let url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.exports.locationApi}`;
+      request.onload = function(){
+        if (this.status == 200){
+          resolve(request.response);
+          console.log(request.response);
 
-      } else{
-        reject(Error(request.statusText));
-      }
-    };
-      request.open("POST", url, true);
-      request.send();
-    });
+        } else{
+          reject(Error(request.statusText));
+        }
+      };
+        request.open("POST", url, true);
+        request.send();
+      });
+    }
   }
-}
 
 
 

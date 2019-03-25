@@ -9,20 +9,18 @@ import { parseString } from './backend.js';
 $(document).ready(function(){
   $("#submit").submit(function(){
     event.preventDefault();
+    let newQuery = new ApiCall();
     const symptom = $("#user-input").val();
     const location = $("#user-location").val();
-    console.log(location);
-    let newLocation = new GoogleApiCall();
-    let locationPromise = newLocation.newDataCall();
+    let locationPromise = newQuery.locationCall(location);
     locationPromise.then(function(response){
-      let locationBody = JSON.parse(response);
-      return locationBody.location;
-      }, function(error){
-        $('.showErrors').text(`There was an error processing your request: ${error.message}`);
-      });
-    console.log(locationPromise);
-    let newQuery = new ApiCall();
-    let promise = newQuery.newDataCall(symptom,locationPromise);
+    let locationBody = JSON.parse(response);
+    },function(error){
+      $('.showErrors').text(`There was an error processing your request: ${error.message}`);
+    });
+
+    locationPromise.then(function(result){
+    let promise = newQuery.newDataCall(symptom,locationBody);
     promise.then(function(response){
       let body = JSON.parse(response);
       console.log(body);
@@ -32,5 +30,6 @@ $(document).ready(function(){
     }, function(error) {
       $('.showErrors').text(`There was an error processing your request: ${error.message}`);
     });
-  });
+  })
+});
 });
