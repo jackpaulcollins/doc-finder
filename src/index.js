@@ -15,21 +15,24 @@ $(document).ready(function(){
     let locationPromise = newQuery.locationCall(location);
     locationPromise.then(function(response){
     let locationBody = JSON.parse(response);
-    },function(error){
-      $('.showErrors').text(`There was an error processing your request: ${error.message}`);
-    });
-
-    locationPromise.then(function(result){
-    let promise = newQuery.newDataCall(symptom,locationBody);
-    promise.then(function(response){
+    let lat = locationBody.results[0].geometry.location.lat;
+    let lng = locationBody.results[0].geometry.location.lng;
+    let array = [lat, lng];
+    let promise2 = newQuery.newDataCall(symptom, array);
+    promise2.then(function(response){
       let body = JSON.parse(response);
-      console.log(body);
       const output = parseData(body);
       const display = parseString(output);
       $(".output-field").html(display);
     }, function(error) {
       $('.showErrors').text(`There was an error processing your request: ${error.message}`);
     });
-  })
+
+    },function(error){
+      $('.showErrors').text(`There was an error processing your request: ${error.message}`);
+    });
+
+    locationPromise.then(function(result){
+  });
 });
 });

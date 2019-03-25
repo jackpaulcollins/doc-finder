@@ -2,11 +2,14 @@ import $ from 'jquery';
 
 
 export class ApiCall{
-  newDataCall(symptom,location){
+  newDataCall(symptom,array){
     return new Promise(function(resolve,reject){
     let request = new XMLHttpRequest();
     const userLocation = location;
-    let url = `https://api.betterdoctor.com/2016-03-01/doctors?query=${symptom}&location=${userLocation}&skip=0&limit=10&user_key=${process.env.exports.apiKey}`;
+    let lat = array[0];
+    let lng = array[1];
+    console.log(lat,lng)
+    let url = `https://api.betterdoctor.com/2016-03-01/doctors?query=${symptom}&location=${lat}%2C${lng}%2C100&user_location=${lat}%2C${lng}&skip=0&limit=10&user_key=${process.env.exports.apiKey}`;
     request.onload = function(){
       if (this.status == 200){
         resolve(request.response);
@@ -22,23 +25,19 @@ export class ApiCall{
     locationCall(location){
       return new Promise(function(resolve,reject){
       let request = new XMLHttpRequest();
-      let url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.exports.locationApi}`;
+      let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key= ${process.env.exports.locationApi}`
       request.onload = function(){
-        if (this.status == 200){
+        if (this.status === 200){
           resolve(request.response);
-          console.log(request.response);
-
         } else{
           reject(Error(request.statusText));
         }
       };
-        request.open("POST", url, true);
+        request.open("GET", url, true);
         request.send();
       });
     }
   }
-
-
 
 export function parseData(input){
   const data = input.data;
