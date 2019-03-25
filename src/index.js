@@ -31,8 +31,5 @@ $(document).ready(function(){
     },function(error){
       $('.showErrors').text(`There was an error processing your request: ${error.message}`);
     });
-
-    locationPromise.then(function(result){
   });
-});
 });

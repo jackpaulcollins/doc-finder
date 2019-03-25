@@ -5,10 +5,8 @@ export class ApiCall{
   newDataCall(symptom,array){
     return new Promise(function(resolve,reject){
     let request = new XMLHttpRequest();
-    const userLocation = location;
     let lat = array[0];
     let lng = array[1];
-    console.log(lat,lng)
     let url = `https://api.betterdoctor.com/2016-03-01/doctors?query=${symptom}&location=${lat}%2C${lng}%2C100&user_location=${lat}%2C${lng}&skip=0&limit=10&user_key=${process.env.exports.apiKey}`;
     request.onload = function(){
       if (this.status == 200){
@@ -25,7 +23,7 @@ export class ApiCall{
     locationCall(location){
       return new Promise(function(resolve,reject){
       let request = new XMLHttpRequest();
-      let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key= ${process.env.exports.locationApi}`
+      let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key= ${process.env.exports.locationApi}`;
       request.onload = function(){
         if (this.status === 200){
           resolve(request.response);
@@ -48,7 +46,6 @@ export function parseData(input){
       output.push(`<a href='${obj.practices[0].website}'>${obj.practices[0].website}</a>` );
     }
   });
-  console.log(output);
   return output;
 }
 
