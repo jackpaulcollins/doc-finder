@@ -20,7 +20,7 @@ _This app uses the google geolocator API, and the BetterDoctor API to determine 
 
 
 ### Known Bugs
-* The Google api is currently not passing the user's location into the BetterDoctor api
+* No known bugs
 
 ### Support and Contact Details
 
